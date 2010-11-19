@@ -21,6 +21,9 @@
 #import "Three20UI/TTStyledTextLabel.h"
 #import "Three20UI/UIViewAdditions.h"
 
+// UICommon
+#import "Three20UICommon/UIWindowAdditions.h"
+
 // Style
 #import "Three20Style/TTStyledNode.h"
 #import "Three20Style/TTStyledButtonNode.h"
@@ -113,10 +116,10 @@ static const CGFloat kCancelHighlightThreshold = 4;
     // the node implementation. One potential fix would be to provide some protocol for these
     // nodes to converse with.
     if ([element isKindOfClass:[TTStyledLinkNode class]]) {
-      TTOpenURL([(TTStyledLinkNode*)element URL]);
+      TTOpenURLFromView([(TTStyledLinkNode*)element URL], self);
 
     } else if ([element isKindOfClass:[TTStyledButtonNode class]]) {
-      TTOpenURL([(TTStyledButtonNode*)element URL]);
+      TTOpenURLFromView([(TTStyledButtonNode*)element URL], self);
 
 
     } else {
@@ -174,8 +177,16 @@ static const CGFloat kCancelHighlightThreshold = 4;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)reloadData {
+  // -[UITableView reloadData] takes away first responder status if the first responder is a
+  // subview, so remember it and then restore it afterward to avoid awkward keyboard disappearance
+  UIResponder* firstResponder = [self.window findFirstResponderInView:self];
+
   CGFloat y = self.contentOffset.y;
   [super reloadData];
+
+  if (nil != firstResponder) {
+    [firstResponder becomeFirstResponder];
+  }
 
   if (_highlightedLabel) {
     self.highlightedLabel = nil;

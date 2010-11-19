@@ -45,8 +45,6 @@
 #import "Three20Core/TTDebug.h"
 #import "Three20Core/TTDebugFlags.h"
 
-static const CGFloat kBannerViewHeight = 22;
-
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -163,6 +161,14 @@ static const CGFloat kBannerViewHeight = 22;
   }
 }
 
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)addSubviewOverTableView:(UIView*)view {
+  NSInteger tableIndex = [_tableView.superview.subviews
+                          indexOfObject:_tableView];
+  if (NSNotFound != tableIndex) {
+    [_tableView.superview addSubview:view];
+  }
+}
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)layoutOverlayView {
@@ -260,6 +266,15 @@ static const CGFloat kBannerViewHeight = 22;
   }
 
   [_tableView deselectRowAtIndexPath:[_tableView indexPathForSelectedRow] animated:animated];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)viewDidAppear:(BOOL)animated {
+  [super viewDidAppear:animated];
+  if (_flags.isShowingModel) {
+    [_tableView flashScrollIndicators];
+  }
 }
 
 
@@ -400,7 +415,7 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)didShowModel:(BOOL)firstTime {
   [super didShowModel:firstTime];
-  if (firstTime) {
+  if (![self isViewAppearing] && firstTime) {
     [_tableView flashScrollIndicators];
   }
 }
@@ -648,18 +663,27 @@ static const CGFloat kBannerViewHeight = 22;
     _tableBannerView = [tableBannerView retain];
 
     if (_tableBannerView) {
+      self.tableView.contentInset = UIEdgeInsetsMake(0, 0, TTSTYLEVAR(tableBannerViewHeight), 0);
+      self.tableView.scrollIndicatorInsets = self.tableView.contentInset;
       _tableBannerView.frame = [self rectForBannerView];
       _tableBannerView.userInteractionEnabled = NO;
-      [self addToOverlayView:_tableBannerView];
+      _tableBannerView.autoresizingMask = (UIViewAutoresizingFlexibleWidth
+                                           | UIViewAutoresizingFlexibleTopMargin);
+      [self addSubviewOverTableView:_tableBannerView];
+
 
       if (animated) {
-        _tableBannerView.top += kBannerViewHeight;
+        _tableBannerView.top += TTSTYLEVAR(tableBannerViewHeight);
         [UIView beginAnimations:nil context:nil];
         [UIView setAnimationDuration:TT_TRANSITION_DURATION];
         [UIView setAnimationCurve:UIViewAnimationCurveEaseOut];
-        _tableBannerView.top -= kBannerViewHeight;
+        _tableBannerView.top -= TTSTYLEVAR(tableBannerViewHeight);
         [UIView commitAnimations];
       }
+
+    } else {
+      self.tableView.contentInset = UIEdgeInsetsZero;
+      self.tableView.scrollIndicatorInsets = UIEdgeInsetsZero;
     }
   }
 }
@@ -837,7 +861,7 @@ static const CGFloat kBannerViewHeight = 22;
   if ([object respondsToSelector:@selector(URLValue)]) {
     NSString* URL = [object URLValue];
     if (URL) {
-      TTOpenURL(URL);
+      TTOpenURLFromView(URL, self.view);
     }
   }
 }
@@ -869,9 +893,10 @@ static const CGFloat kBannerViewHeight = 22;
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (CGRect)rectForBannerView {
   CGRect tableFrame = [_tableView frameWithKeyboardSubtracted:0];
+  const CGFloat bannerViewHeight = TTSTYLEVAR(tableBannerViewHeight);
   return CGRectMake(tableFrame.origin.x,
-                    (tableFrame.origin.y + tableFrame.size.height) - kBannerViewHeight,
-                    tableFrame.size.width, kBannerViewHeight);
+                    (tableFrame.origin.y + tableFrame.size.height) - bannerViewHeight,
+                    tableFrame.size.width, bannerViewHeight);
 }
 
 

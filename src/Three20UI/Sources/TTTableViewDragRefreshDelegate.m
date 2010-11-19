@@ -46,7 +46,9 @@
 
 // The number of pixels the table needs to be pulled down by in order to initiate the refresh.
 static const CGFloat kRefreshDeltaY = -65.0f;
-static const CGFloat kRefreshViewHeight = 60.0f;
+
+// The height of the refresh header when it is in its "loading" state.
+static const CGFloat kHeaderVisibleHeight = 60.0f;
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -122,11 +124,17 @@ static const CGFloat kRefreshViewHeight = 60.0f;
     } else if (scrollView.contentOffset.y < kRefreshDeltaY) {
       [_headerView setStatus:TTTableHeaderDragRefreshReleaseToReload];
     }
-  } else if (_model.isLoading) {
-    if (scrollView.contentOffset.y > 0)
+  }
+
+  // This is to prevent odd behavior with plain table section headers. They are affected by the
+  // content inset, so if the table is scrolled such that there might be a section header abutting
+  // the top, we need to clear the content inset.
+  if (_model.isLoading) {
+    if (scrollView.contentOffset.y >= 0) {
       _controller.tableView.contentInset = UIEdgeInsetsZero;
-    else if (scrollView.contentOffset.y >= -kRefreshViewHeight)
-      _controller.tableView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
+    } else if (scrollView.contentOffset.y < 0) {
+      _controller.tableView.contentInset = UIEdgeInsetsMake(kHeaderVisibleHeight, 0, 0, 0);
+    }
   }
 }
 
@@ -157,7 +165,11 @@ static const CGFloat kRefreshViewHeight = 60.0f;
 
   [UIView beginAnimations:nil context:NULL];
   [UIView setAnimationDuration:ttkDefaultFastTransitionDuration];
-  _controller.tableView.contentInset = UIEdgeInsetsMake(kRefreshViewHeight, 0.0f, 00.0f, 0.0f);
+
+  if (_controller.tableView.contentOffset.y < 0) {
+    _controller.tableView.contentInset = UIEdgeInsetsMake(kHeaderVisibleHeight, 0.0f, 0.0f, 0.0f);
+  }
+
   [UIView commitAnimations];
 }
 

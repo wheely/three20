@@ -25,6 +25,7 @@
 #import "Three20Style/TTBoxStyle.h"
 
 // Core
+#import "Three20Core/TTDebug.h"
 #import "Three20Core/TTCorePreprocessorMacros.h"
 
 
@@ -44,6 +45,8 @@
   if (self = [super initWithFrame:frame]) {
     self.backgroundColor = [UIColor clearColor];
     self.dotStyle = @"pageDot:";
+    self.hidesForSinglePage = NO;
+    self.contentMode = UIViewContentModeRedraw;
   }
 
   return self;
@@ -94,31 +97,33 @@
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)drawRect:(CGRect)rect {
-  if (_numberOfPages > 1 || _hidesForSinglePage) {
-    TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
-    TTBoxStyle* boxStyle = [self.normalDotStyle firstStyleOfClass:[TTBoxStyle class]];
+  if(_numberOfPages <= 1 && _hidesForSinglePage) {
+    return;
+  }
 
-    CGSize dotSize = [self.normalDotStyle addToSize:CGSizeZero context:context];
+  TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
+  TTBoxStyle* boxStyle = [self.normalDotStyle firstStyleOfClass:[TTBoxStyle class]];
 
-    CGFloat dotWidth = dotSize.width + boxStyle.margin.left + boxStyle.margin.right;
-    CGFloat totalWidth = (dotWidth * _numberOfPages) - (boxStyle.margin.left + boxStyle.margin.right);
-    CGRect contentRect = CGRectMake(round(self.width/2 - totalWidth/2),
-                                    round(self.height/2 - dotSize.height/2),
-                                    dotSize.width, dotSize.height);
+  CGSize dotSize = [self.normalDotStyle addToSize:CGSizeZero context:context];
 
-    for (NSInteger i = 0; i < _numberOfPages; ++i) {
-      contentRect.origin.x += boxStyle.margin.left;
+  CGFloat dotWidth = dotSize.width + boxStyle.margin.left + boxStyle.margin.right;
+  CGFloat totalWidth = (dotWidth * _numberOfPages) - (boxStyle.margin.left + boxStyle.margin.right);
+  CGRect contentRect = CGRectMake(round(self.width/2 - totalWidth/2),
+                                  round(self.height/2 - dotSize.height/2),
+                                  dotSize.width, dotSize.height);
 
-      context.frame = contentRect;
-      context.contentFrame = contentRect;
+  for (NSInteger i = 0; i < _numberOfPages; ++i) {
+    contentRect.origin.x += boxStyle.margin.left;
 
-      if (i == _currentPage) {
-        [self.currentDotStyle draw:context];
-      } else {
-        [self.normalDotStyle draw:context];
-      }
-      contentRect.origin.x += dotSize.width + boxStyle.margin.right;
+    context.frame = contentRect;
+    context.contentFrame = contentRect;
+
+    if (i == _currentPage) {
+      [self.currentDotStyle draw:context];
+    } else {
+      [self.normalDotStyle draw:context];
     }
+    contentRect.origin.x += dotSize.width + boxStyle.margin.right;
   }
 }
 
@@ -149,28 +154,15 @@
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
   if (_numberOfPages > 1 && self.touchInside) {
     CGPoint point = [touch locationInView:self];
-    TTStyleContext* context = [[[TTStyleContext alloc] init] autorelease];
-    TTBoxStyle* boxStyle = [self.normalDotStyle firstStyleOfClass:[TTBoxStyle class]];
     
-    CGSize dotSize = [self.normalDotStyle addToSize:CGSizeZero context:context];
-    
-    CGFloat dotWidth = dotSize.width + boxStyle.margin.left + boxStyle.margin.right;
-    CGFloat totalWidth = (dotWidth * _numberOfPages) - (boxStyle.margin.left + boxStyle.margin.right);
-    CGFloat lhs = self.width/2 - totalWidth/2;
-    CGFloat rhs = self.width/2 + totalWidth/2;
-    
-    NSInteger newPage = _currentPage;
-    if (point.x < lhs) {
-      newPage = newPage - 1 > -1 ? newPage - 1 : newPage;
-    }else if (point.x > rhs) {
-      newPage = newPage + 1 < _numberOfPages ? newPage + 1 : newPage;
-    }else {
-      newPage = round((point.x - lhs) / totalWidth * (_numberOfPages - 1));
+    if (point.x < self.width / 2) {
+      self.currentPage = self.currentPage - 1;
+
+    } else {
+      self.currentPage = self.currentPage + 1;
     }
-    if(newPage != _currentPage){
-      self.currentPage = newPage;
-      [self sendActionsForControlEvents:UIControlEventValueChanged];
-    }
+
+    [self sendActionsForControlEvents:UIControlEventValueChanged];
   }
 }
 
@@ -184,7 +176,9 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setNumberOfPages:(NSInteger)numberOfPages {
   if (numberOfPages != _numberOfPages) {
-    _numberOfPages = numberOfPages;
+    TTDASSERT(numberOfPages >= 0);
+
+    _numberOfPages = MAX(0, numberOfPages);
     [self setNeedsDisplay];
   }
 }
@@ -193,7 +187,7 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)setCurrentPage:(NSInteger)currentPage {
   if (currentPage != _currentPage) {
-    _currentPage = currentPage;
+    _currentPage = MAX(0, MIN(_numberOfPages - 1,currentPage));
     [self setNeedsDisplay];
   }
 }
