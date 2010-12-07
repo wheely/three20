@@ -486,8 +486,7 @@ static const CGFloat kVPadding = 7;
         frame.origin.y += imageBoxStyle.margin.top;
       }
 
-      UIImage* image = [self imageForCurrentState];
-      return [image convertRect:frame withContentMode:imageStyle.contentMode];
+      return [UIImage convertRect:frame withContentMode:imageStyle.contentMode imageSize:imageSize];
     }
   }
 
