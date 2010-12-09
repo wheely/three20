@@ -30,6 +30,7 @@
 @synthesize image       = _image;
 @synthesize URL         = _URL;
 @synthesize style       = _style;
+@synthesize badgeText   = _badgeText;
 @synthesize badgeNumber = _badgeNumber;
 @synthesize canDelete   = _canDelete;
 
@@ -70,6 +71,7 @@
   TT_RELEASE_SAFELY(_image);
   TT_RELEASE_SAFELY(_URL);
   TT_RELEASE_SAFELY(_style);
+  TT_RELEASE_SAFELY(_badgeText);
 
   [super dealloc];
 }
@@ -112,9 +114,24 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void)setBadgeNumber:(NSInteger)badgeNumber {
-  _badgeNumber = badgeNumber;
+- (void)setBadgeText:(NSString*)badgeText {
+  if ([self.badgeText isEqualToString:badgeText])
+    return;
+  
+  TT_RELEASE_SAFELY(_badgeText);
+  _badgeText = [badgeText copy];
 
+  [_launcher performSelector:@selector(updateItemBadge:) withObject:self];
+}
+
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+- (void)setBadgeNumber:(NSInteger)badgeNumber {
+  if (_badgeNumber = badgeNumber)
+    return;
+  
+  _badgeNumber = badgeNumber;
+  
   [_launcher performSelector:@selector(updateItemBadge:) withObject:self];
 }
 

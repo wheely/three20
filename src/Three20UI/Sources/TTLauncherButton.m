@@ -103,7 +103,7 @@ static const NSInteger kMaxBadgeNumber = 99;
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
 - (void)updateBadge {
-  if (!_badge && _item.badgeNumber) {
+  if (!_badge && (_item.badgeNumber || _item.badgeText)) {
     _badge = [[TTLabel alloc] init];
     _badge.style = TTSTYLE(largeBadge);
     _badge.backgroundColor = [UIColor clearColor];
@@ -118,9 +118,14 @@ static const NSInteger kMaxBadgeNumber = 99;
     } else {
       _badge.text = [NSString stringWithFormat:@"%d+", kMaxBadgeNumber];
     }
+    _badge.hidden = NO;
+  } else if (_item.badgeText) {
+    _badge.text = _item.badgeText;
+    _badge.hidden = NO;
+  } else {
+    _badge.hidden = YES;
   }
 
-  _badge.hidden = _item.badgeNumber <= 0;
   [_badge sizeToFit];
   [self setNeedsLayout];
 }
