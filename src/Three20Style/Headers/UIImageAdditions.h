@@ -28,6 +28,8 @@
  * Returns a CGRect positioned within rect given the contentMode.
  */
 - (CGRect)convertRect:(CGRect)rect withContentMode:(UIViewContentMode)contentMode;
++ (CGRect)convertRect:(CGRect)rect withContentMode:(UIViewContentMode)contentMode
+            imageSize:(CGSize)imageSize;
 
 /**
  * Draws the image using content mode rules.
