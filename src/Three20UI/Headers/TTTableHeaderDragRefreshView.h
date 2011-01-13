@@ -42,10 +42,12 @@ typedef enum {
   UILabel*                  _statusLabel;
   UIImageView*              _arrowImage;
   UIActivityIndicatorView*  _activityView;
+  TTTableHeaderDragRefreshStatus  _status;
 }
+
+@property (nonatomic, assign) TTTableHeaderDragRefreshStatus status;
 
 - (void)setCurrentDate;
 - (void)setUpdateDate:(NSDate*)date;
-- (void)setStatus:(TTTableHeaderDragRefreshStatus)status;
 
 @end
