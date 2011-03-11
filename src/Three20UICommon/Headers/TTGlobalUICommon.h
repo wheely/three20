@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -51,7 +51,7 @@ UIDeviceOrientation TTDeviceOrientation();
  * On iPhone/iPod touch
  * Checks if the orientation is portrait, landscape left, or landscape right.
  * This helps to ignore upside down and flat orientations.
- * 
+ *
  * On iPad:
  * Always returns Yes.
  */

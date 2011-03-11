@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,7 +46,7 @@
 - (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
   if (self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil]) {
     _navigationBarStyle = UIBarStyleDefault;
-    _statusBarStyle = UIStatusBarStyleDefault;
+    _statusBarStyle = [[UIApplication sharedApplication] statusBarStyle];
   }
 
   return self;
@@ -115,6 +115,7 @@
   
   if (appearing) {
     [self keyboardWillAppear:animated withBounds:keyboardBounds];
+
   } else {
     [self keyboardWillDisappear:animated withBounds:keyboardBounds];
   }
@@ -161,7 +162,7 @@
     UINavigationBar* bar = self.navigationController.navigationBar;
     bar.tintColor = _navigationBarTintColor;
     bar.barStyle = _navigationBarStyle;
-    
+
     if (!TTIsPad()) {
       [[UIApplication sharedApplication] setStatusBarStyle:_statusBarStyle animated:YES];
     }
@@ -202,6 +203,7 @@
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation {
   if (TTIsPad()) {
     return YES;
+
   } else {
     UIViewController* popup = [self popupViewController];
     if (popup) {

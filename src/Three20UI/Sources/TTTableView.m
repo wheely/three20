@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -91,6 +91,7 @@ static const CGFloat kCancelHighlightThreshold = 4;
 //    CGPoint point = [touch locationInView:_menuView];
 //    if (point.y < 0 || point.y > _menuView.height) {
 //      [self hideMenu:YES];
+
 //    } else {
 //      UIView* hit = [_menuView hitTest:point withEvent:event];
 //      if (![hit isKindOfClass:[UIControl class]]) {

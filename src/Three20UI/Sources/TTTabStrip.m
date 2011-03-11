@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -29,17 +29,6 @@
 
 // Core
 #import "Three20Core/TTCorePreprocessorMacros.h"
-
-
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-///////////////////////////////////////////////////////////////////////////////////////////////////
-@interface TTTabStrip (TTPrivate)
-
-BOOL    _contentSizeCached;
-CGSize  _contentSize;
-
-@end
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +92,7 @@ CGSize  _contentSize;
 
     _overflowRight.left = self.width-_overflowRight.width;
     _overflowRight.hidden = NO;
+
   } else {
     _overflowRight.hidden = YES;
   }
@@ -117,6 +107,7 @@ CGSize  _contentSize;
     }
 
     _overflowLeft.hidden = NO;
+
   } else {
     _overflowLeft.hidden = YES;
   }

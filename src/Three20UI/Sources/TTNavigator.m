@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -65,10 +65,9 @@ UIViewController* TTOpenURLFromView(NSString* URL, UIView* view) {
 + (TTNavigator*)navigator {
   TTBaseNavigator* navigator = [TTBaseNavigator globalNavigator];
   if (nil == navigator) {
-    navigator = [[TTNavigator alloc] init];
+    navigator = [[[TTNavigator alloc] init] autorelease];
     // setNavigator: retains.
     [super setGlobalNavigator:navigator];
-    [navigator release];
   }
   // If this asserts, it's likely that you're attempting to use two different navigator
   // implementations simultaneously. Be consistent!

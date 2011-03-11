@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -34,6 +34,6 @@
 @property (nonatomic, copy)     NSString* version;
 @property (nonatomic, copy)     NSString* copyright;
 @property (nonatomic, copy)     NSString* license;
-@property (nonatomic, retain)   NSArray*  authors; // NSArray of TTExtensionAuthor* objects.
+@property (nonatomic, copy)     NSArray*  authors; // NSArray of TTExtensionAuthor* objects.
 
 @end

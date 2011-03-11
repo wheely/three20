@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -46,8 +46,8 @@
 
 @property (nonatomic, copy)   NSString*     urlPath;
 @property (nonatomic, copy)   NSString*     parentURLPath;
-@property (nonatomic, retain) NSDictionary* query;
-@property (nonatomic, retain) NSDictionary* state;
+@property (nonatomic, copy)   NSDictionary* query;
+@property (nonatomic, copy)   NSDictionary* state;
 @property (nonatomic, assign) BOOL          animated;
 @property (nonatomic, assign) BOOL          withDelay;
 @property (nonatomic, assign) CGRect        sourceRect;

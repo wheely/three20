@@ -1,5 +1,5 @@
 //
-// Copyright 2009-2010 Facebook
+// Copyright 2009-2011 Facebook
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -123,8 +123,9 @@
       TTExtensionInfo* extension = [availableExtensions objectForKey:extensionID];
       [availableItems addObject:[self tableItemForExtension:extension]];
     }
-    [availableItems addObject:[TTTableLongTextItem itemWithText:
-                               @"Call [TTExtensionLoader loadAllExtensions] in your app delegate to load extensions."]];
+    [availableItems addObject:
+     [TTTableLongTextItem itemWithText:
+      @"Call [TTExtensionLoader loadAllExtensions] in your app delegate to load extensions."]];
     [sectionItems addObject:availableItems];
   }
 
