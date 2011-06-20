@@ -133,7 +133,7 @@
     _activityView.frame = CGRectMake( 30.0f, frame.size.height - 38.0f, 20.0f, 20.0f );
     _activityView.hidesWhenStopped  = YES;
     [self addSubview:_activityView];
-    
+
     _status = TTTableHeaderDragRefreshPullToReload;
   }
   return self;
@@ -200,9 +200,9 @@
 - (void)setStatus:(TTTableHeaderDragRefreshStatus)status {
   if (_status == status)
     return;
-  
+
   _status = status;
-  
+
   switch (status) {
     case TTTableHeaderDragRefreshReleaseToReload: {
       [self showActivity:NO animated:NO];

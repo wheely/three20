@@ -155,7 +155,7 @@
 - (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event {
   if (_numberOfPages > 1 && self.touchInside) {
     CGPoint point = [touch locationInView:self];
-    
+
     if (point.x < self.width / 2) {
       self.currentPage = self.currentPage - 1;
 

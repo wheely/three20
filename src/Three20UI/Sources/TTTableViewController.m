@@ -329,9 +329,11 @@
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////
-- (void) keyboardWillAppear:(BOOL)animated withBounds:(CGRect)bounds {
+- (void) keyboardDidAppear:(BOOL)animated withBounds:(CGRect)bounds {
   [super keyboardDidAppear:animated withBounds:bounds];
-  self.tableView.frame = TTRectContract(self.tableView.frame, 0, bounds.size.height);
+  CGRect frame = self.tableView.frame;
+  frame.size.height = self.view.height - frame.origin.y - bounds.size.height;
+  self.tableView.frame = frame;
   [self.tableView scrollFirstResponderIntoView];
   [self layoutOverlayView];
   [self layoutBannerView];
@@ -346,8 +348,10 @@
   // table view gets doubly-initialized. self.tableView will try to initialize it; this will call
   // self.view, which will call -loadView, which often calls self.tableView, which initializes it.
   if (_tableView) {
+    CGRect frame = self.tableView.frame;
     CGRect previousFrame = self.tableView.frame;
-    self.tableView.frame = TTRectContract(self.tableView.frame, 0, -bounds.size.height);
+    frame.size.height = self.view.height - frame.origin.y;
+    self.tableView.frame = frame;
 
     // There's any number of edge cases wherein a table view controller will get this callback but
     // it shouldn't resize itself -- e.g. when a controller has the keyboard up, and then drills

@@ -128,43 +128,52 @@ TT_FIX_CATEGORY_BUG(UIImageAdditions)
       return CGRectMake(rect.origin.x,
                         rect.origin.y + floor(rect.size.height/2 - imageSize.height/2),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeRight) {
       return CGRectMake(rect.origin.x + (rect.size.width - imageSize.width),
                         rect.origin.y + floor(rect.size.height/2 - imageSize.height/2),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeTop) {
       return CGRectMake(rect.origin.x + floor(rect.size.width/2 - imageSize.width/2),
                         rect.origin.y,
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeBottom) {
       return CGRectMake(rect.origin.x + floor(rect.size.width/2 - imageSize.width/2),
                         rect.origin.y + floor(rect.size.height - imageSize.height),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeCenter) {
       return CGRectMake(rect.origin.x + floor(rect.size.width/2 - imageSize.width/2),
                         rect.origin.y + floor(rect.size.height/2 - imageSize.height/2),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeBottomLeft) {
       return CGRectMake(rect.origin.x,
                         rect.origin.y + floor(rect.size.height - imageSize.height),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeBottomRight) {
       return CGRectMake(rect.origin.x + (rect.size.width - imageSize.width),
                         rect.origin.y + (rect.size.height - imageSize.height),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeTopLeft) {
       return CGRectMake(rect.origin.x,
                         rect.origin.y,
-                        
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeTopRight) {
       return CGRectMake(rect.origin.x + (rect.size.width - imageSize.width),
                         rect.origin.y,
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeScaleAspectFill) {
       if (imageSize.height < imageSize.width) {
         imageSize.width = floor((imageSize.width/imageSize.height) * rect.size.height);
         imageSize.height = rect.size.height;
+
       } else {
         imageSize.height = floor((imageSize.height/imageSize.width) * rect.size.width);
         imageSize.width = rect.size.width;
@@ -172,10 +181,12 @@ TT_FIX_CATEGORY_BUG(UIImageAdditions)
       return CGRectMake(rect.origin.x + floor(rect.size.width/2 - imageSize.width/2),
                         rect.origin.y + floor(rect.size.height/2 - imageSize.height/2),
                         imageSize.width, imageSize.height);
+
     } else if (contentMode == UIViewContentModeScaleAspectFit) {
       if (imageSize.height < imageSize.width) {
         imageSize.height = floor((imageSize.height/imageSize.width) * rect.size.width);
         imageSize.width = rect.size.width;
+
       } else {
         imageSize.width = floor((imageSize.width/imageSize.height) * rect.size.height);
         imageSize.height = rect.size.height;

@@ -132,8 +132,10 @@ static const CGFloat kHeaderVisibleHeight = 60.0f;
   if (_headerView.status == TTTableHeaderDragRefreshLoading) {
     if (scrollView.contentOffset.y >= 0) {
       _controller.tableView.contentInset = UIEdgeInsetsZero;
+
     } else if (scrollView.contentOffset.y <= -kHeaderVisibleHeight) {
       _controller.tableView.contentInset = UIEdgeInsetsMake(kHeaderVisibleHeight, 0, 0, 0);
+
     } else {
       _controller.tableView.contentInset = UIEdgeInsetsMake(-scrollView.contentOffset.y, 0, 0, 0);
     }

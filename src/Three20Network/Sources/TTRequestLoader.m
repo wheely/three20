@@ -163,7 +163,7 @@ static const NSInteger kLoadMaxRetries = 2;
 
     TT_RELEASE_SAFELY(_responseData);
     TT_RELEASE_SAFELY(_connection);
-    
+
     [_queue loader:self didFailLoadWithError:error response:(NSHTTPURLResponse*)response data:data];
 
   } else {
@@ -372,7 +372,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
       && _retriesLeft) {
     TT_RELEASE_SAFELY(_responseData);
     TT_RELEASE_SAFELY(_connection);
-    
+
     // If there is a network error then we will wait and retry a few times in case
     // it was just a temporary blip in connectivity.
     --_retriesLeft;
@@ -380,7 +380,7 @@ didReceiveAuthenticationChallenge:(NSURLAuthenticationChallenge *)challenge{
 
   } else {
     [_queue loader:self didFailLoadWithError:error response:_response data:_responseData];
-    
+
     TT_RELEASE_SAFELY(_responseData);
     TT_RELEASE_SAFELY(_connection);
   }

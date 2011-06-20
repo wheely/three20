@@ -678,9 +678,9 @@ static TTURLRequestQueue* gMainQueue = nil;
   TTDCONDITIONLOG(TTDFLAG_URLREQUEST, @"ERROR: %@", error);
   [loader retain];
   [self removeLoader:loader];
-  
+
   NSError* errorToDispatch = error;
-  
+
   if (response && data) {
     NSError* responseProcessingError = [loader processResponse:response data:data];
     if (responseProcessingError) {
@@ -693,9 +693,9 @@ static TTURLRequestQueue* gMainQueue = nil;
       TT_RELEASE_SAFELY(userInfo);
     }
   }
-  
+
   [loader dispatchError:errorToDispatch];
-  
+
   [self loadNextInQueue];
 }
 

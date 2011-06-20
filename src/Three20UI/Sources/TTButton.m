@@ -106,19 +106,23 @@ static const CGFloat kVPadding = 7;
   static NSString* disabled = @"disabled";
   static NSString* selectedAndHighlighted = @"selectedAndHighlighted";
   static NSString* selectedAndDisabled = @"selectedAndHighlighted";
-  
+
   if (state & UIControlStateSelected) {
     if (state & UIControlStateHighlighted)
       return selectedAndHighlighted;
     else if (state & UIControlStateDisabled) {
       return selectedAndDisabled;
+
     } else {
       return selected;
     }
+
   } else if (state & UIControlStateHighlighted) {
     return highlighted;
+
   } else if (state & UIControlStateDisabled) {
     return disabled;
+
   } else {
     return normalKey;
   }
@@ -148,13 +152,17 @@ static const CGFloat kVPadding = 7;
   if (self.selected) {
     if (self.highlighted) {
       content = [self contentForState:(UIControlStateSelected | UIControlStateHighlighted)];
+
     } else if (!self.enabled) {
       content = [self contentForState:(UIControlStateSelected | UIControlStateDisabled)];
+
     } else {
       content = [self contentForState:UIControlStateSelected];
     }
+
   } else if (self.highlighted) {
     content = [self contentForState:UIControlStateHighlighted];
+
   } else if (!self.enabled) {
     content = [self contentForState:UIControlStateDisabled];
   }
@@ -445,12 +453,12 @@ static const CGFloat kVPadding = 7;
   TTStyle* selectedDisabledStyle =
     [ss styleWithSelector:selector forState:(UIControlStateSelected | UIControlStateDisabled)];
   [self setStyle:selectedDisabledStyle forState:(UIControlStateSelected | UIControlStateDisabled)];
-  
+
   TTStyle* selectedHighlightedStyle =
     [ss styleWithSelector:selector forState:(UIControlStateSelected | UIControlStateHighlighted)];
   [self setStyle:selectedHighlightedStyle
         forState:(UIControlStateSelected | UIControlStateHighlighted)];
-  
+
   TTStyle* disabledStyle = [ss styleWithSelector:selector forState:UIControlStateDisabled];
   [self setStyle:disabledStyle forState:UIControlStateDisabled];
 }

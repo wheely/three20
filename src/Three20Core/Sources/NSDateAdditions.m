@@ -156,31 +156,32 @@ TT_FIX_CATEGORY_BUG(NSDateAdditions)
   if (elapsed > 0) {
     if (elapsed <= 1) {
       return TTLocalizedString(@"just a moment", @"");
-      
+
     } else if (elapsed < TT_MINUTE) {
       int seconds = (int)(elapsed);
       return [NSString stringWithFormat:TTLocalizedString(@"%d seconds", @""), seconds];
-      
+
     } else if (elapsed < 2*TT_MINUTE) {
       return TTLocalizedString(@"about a minute", @"");
-      
+
     } else if (elapsed < TT_HOUR) {
       int mins = (int)(elapsed/TT_MINUTE);
       return [NSString stringWithFormat:TTLocalizedString(@"%d minutes", @""), mins];
-      
+
     } else if (elapsed < TT_HOUR*1.5) {
       return TTLocalizedString(@"about an hour", @"");
-      
+
     } else if (elapsed < TT_DAY) {
       int hours = (int)((elapsed+TT_HOUR/2)/TT_HOUR);
       return [NSString stringWithFormat:TTLocalizedString(@"%d hours", @""), hours];
-      
+
     } else {
       return [self formatDateTime];
-    }    
+    }
+
   } else {
     elapsed = -elapsed;
-    
+
     if (elapsed <= 1) {
       return TTLocalizedString(@"just a moment ago", @"");
 
