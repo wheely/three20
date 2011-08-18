@@ -381,7 +381,7 @@ __attribute__((weak_import));
         for (UIViewController* superController = previousSuper; controller; ) {
           UIViewController* nextSuper = superController.superController;
           [superController bringControllerToFront: controller
-                                         animated: !nextSuper];
+                                         animated: !nextSuper && action.animated];
           controller = superController;
           superController = nextSuper;
         }
