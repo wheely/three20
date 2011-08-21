@@ -91,7 +91,7 @@
     if ([tableView.dataSource respondsToSelector:@selector(tableView:titleForHeaderInSection:)]) {
       NSString* title = [tableView.dataSource tableView:tableView titleForHeaderInSection:section];
       if (title.length > 0) {
-        TTTableHeaderView* header = [_headers objectForKey:title];
+        TTTableHeaderView* header = nil;//[_headers objectForKey:title];
 
         // If retrieved from cache, prepare for reuse here.
         // We reset the the opacity to 1 because UITableView might set this property to 0 after
@@ -101,11 +101,11 @@
           header.alpha = 1;
 
         } else {
-          if (nil == _headers) {
-            _headers = [[NSMutableDictionary alloc] init];
-          }
+          //if (nil == _headers) {
+          //  _headers = [[NSMutableDictionary alloc] init];
+          //}
           header = [[[TTTableHeaderView alloc] initWithTitle:title] autorelease];
-          [_headers setObject:header forKey:title];
+          //[_headers setObject:header forKey:title];
         }
         return header;
       }
