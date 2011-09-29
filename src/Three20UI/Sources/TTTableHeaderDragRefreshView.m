@@ -129,9 +129,10 @@
     [self addSubview:_arrowImage];
 
     _activityView = [[UIActivityIndicatorView alloc]
-                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleGray];
+                     initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
     _activityView.frame = CGRectMake( 30.0f, frame.size.height - 38.0f, 20.0f, 20.0f );
     _activityView.hidesWhenStopped  = YES;
+    _activityView.alpha = 0.7;
     [self addSubview:_activityView];
 
     _status = TTTableHeaderDragRefreshPullToReload;
